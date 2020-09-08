@@ -36,7 +36,7 @@ namespace LightLog
         /// <summary>
         /// 设置日志路径
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">日志路径</param>
         public static void SetLogPath(string path)
         {
             logFolderPath = (path.EndsWith("\\") || path.EndsWith("/")) ? path : path + "\\";
@@ -46,7 +46,8 @@ namespace LightLog
         /// <summary>
         /// 写调试日志
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="msg">日志信息</param>
+        /// <param name="ex">异常</param>
         public static void Debug(string msg, Exception ex = null)
         {
             Task.Run(() =>
@@ -58,7 +59,8 @@ namespace LightLog
         /// <summary>
         /// 写信息日志
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="msg">日志信息</param>
+        /// <param name="ex">异常</param>
         public static void Info(string msg, Exception ex = null)
         {
             Task.Run(() =>
@@ -70,7 +72,8 @@ namespace LightLog
         /// <summary>
         /// 写警告日志
         /// </summary>
-        /// <param name="msg"></param>
+        /// <param name="msg">日志信息</param>
+        /// <param name="ex">异常</param>
         public static void Warn(string msg, Exception ex = null)
         {
             Task.Run(() =>
@@ -82,8 +85,8 @@ namespace LightLog
         /// <summary>
         /// 写错误日志
         /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="ex"></param>
+        /// <param name="msg">日志信息</param>
+        /// <param name="ex">异常</param>
         public static void Error(string msg, Exception ex = null)
         {
             Task.Run(() =>
@@ -95,8 +98,8 @@ namespace LightLog
         /// <summary>
         /// 写致命日志
         /// </summary>
-        /// <param name="msg"></param>
-        /// <param name="ex"></param>
+        /// <param name="msg">日志信息</param>
+        /// <param name="ex">异常</param>
         public static void Fatal(string msg, Exception ex = null)
         {
             Task.Run(() =>
