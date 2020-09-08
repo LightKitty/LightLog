@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 namespace LightLog
 {
+    /// <summary>
+    /// 日志记录
+    /// </summary>
     public class Logger
     {
         /// <summary>
-        /// 写日志锁（全局唯一）
+        /// 写日志锁
         /// </summary>
-        private static readonly object writeLock = new object();
+        private readonly object writeLock = new object();
 
         /// <summary>
         /// 日志文件夹
