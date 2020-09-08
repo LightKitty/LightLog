@@ -57,7 +57,7 @@ namespace LightLog
         {
             Task.Run(() =>
             {
-                msg = GetMsgHead(LogType.Error) + msg + Environment.NewLine + ex.ToString() +Environment.NewLine;
+                msg = GetMsgHead(LogType.Error) + msg + Environment.NewLine + ex.ToString() +Environment.NewLine; //ex.ToString()内容最详细
                 WriteLog(GetLogFilePath(), msg);
             });
         }
