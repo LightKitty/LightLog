@@ -12,6 +12,8 @@ namespace LightLog
     /// </summary>
     public static class Logger
     {
+        #region private fileds
+
         /// <summary>
         /// 写日志锁
         /// </summary>
@@ -26,6 +28,10 @@ namespace LightLog
         /// 日志级别
         /// </summary>
         private enum LogLevel { Debug, Info, Warn, Error, Fatal };
+
+        #endregion
+
+        #region public methods
 
         /// <summary>
         /// 设置日志路径
@@ -99,8 +105,12 @@ namespace LightLog
             });
         }
 
+        #endregion
+
+        #region private methods
+
         /// <summary>
-        /// 获取日志内容
+        /// 格式化日志内容
         /// </summary>
         /// <param name="logLevel"></param>
         /// <param name="msg"></param>
@@ -167,5 +177,7 @@ namespace LightLog
                 }
             }
         }
+
+        #endregion
     }
 }
