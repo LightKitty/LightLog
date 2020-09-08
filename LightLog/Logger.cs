@@ -106,7 +106,7 @@ namespace LightLog
         /// <returns></returns>
         private string GetLogContent(LogLevel logLevel, string msg, Exception ex)
         {
-            return GetLogHead(LogLevel.Error) + msg + Environment.NewLine + (ex == null ? string.Empty : (ex.ToString() + Environment.NewLine)); //ex.ToString()内容最详细
+            return GetLogHead(logLevel) + msg + Environment.NewLine + (ex == null ? string.Empty : (ex.ToString() + Environment.NewLine)); //ex.ToString()内容最详细
         }
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace LightLog
         /// <returns></returns>
         private string GetLogHead(LogLevel logLevel)
         {
-            return $"[{DateTime.Now.ToString("HH:mm:ss")} {logLevel.ToString()}]";
+            return $"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {logLevel.ToString()}] ";
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace LightLog
         /// <param name="ex"></param>
         private void WriteLog(LogLevel logLevel, string msg, Exception ex)
         {
-            WriteLog(GetLogFilePath(), GetLogContent(LogLevel.Error, msg, ex)); //格式化日志、写日志
+            WriteLog(GetLogFilePath(), GetLogContent(logLevel, msg, ex)); //格式化日志、写日志
         }
 
         /// <summary>
