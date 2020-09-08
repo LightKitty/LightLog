@@ -10,29 +10,28 @@ namespace LightLog
     /// <summary>
     /// 日志记录
     /// </summary>
-    public class Logger
+    public static class Logger
     {
         /// <summary>
         /// 写日志锁
         /// </summary>
-        private readonly object writeLock = new object();
+        private static readonly object writeLock = new object();
 
         /// <summary>
         /// 日志文件夹
         /// </summary>
-        private string logFolderPath = "log\\";
+        private static string logFolderPath = "log\\";
 
         /// <summary>
         /// 日志级别
         /// </summary>
         private enum LogLevel { Debug, Info, Warn, Error, Fatal };
 
-        public Logger()
-        {
-            if (!Directory.Exists(logFolderPath)) Directory.CreateDirectory(logFolderPath); //判断并创建日志文件夹
-        }
-
-        public Logger(string path)
+        /// <summary>
+        /// 设置日志路径
+        /// </summary>
+        /// <param name="path"></param>
+        public static void SetLogPath(string path)
         {
             logFolderPath = (path.EndsWith("\\") || path.EndsWith("/")) ? path : path + "\\";
             if (!Directory.Exists(logFolderPath)) Directory.CreateDirectory(logFolderPath); //判断并创建日志文件夹
@@ -42,7 +41,7 @@ namespace LightLog
         /// 写调试日志
         /// </summary>
         /// <param name="msg"></param>
-        public void Debug(string msg, Exception ex = null)
+        public static void Debug(string msg, Exception ex = null)
         {
             Task.Run(() =>
             {
@@ -54,7 +53,7 @@ namespace LightLog
         /// 写信息日志
         /// </summary>
         /// <param name="msg"></param>
-        public void Info(string msg, Exception ex = null)
+        public static void Info(string msg, Exception ex = null)
         {
             Task.Run(() =>
             {
@@ -66,7 +65,7 @@ namespace LightLog
         /// 写警告日志
         /// </summary>
         /// <param name="msg"></param>
-        public void Warn(string msg, Exception ex = null)
+        public static void Warn(string msg, Exception ex = null)
         {
             Task.Run(() =>
             {
@@ -79,7 +78,7 @@ namespace LightLog
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="ex"></param>
-        public void Error(string msg, Exception ex = null)
+        public static void Error(string msg, Exception ex = null)
         {
             Task.Run(() =>
             {
@@ -92,7 +91,7 @@ namespace LightLog
         /// </summary>
         /// <param name="msg"></param>
         /// <param name="ex"></param>
-        public void Fatal(string msg, Exception ex = null)
+        public static void Fatal(string msg, Exception ex = null)
         {
             Task.Run(() =>
             {
@@ -107,7 +106,7 @@ namespace LightLog
         /// <param name="msg"></param>
         /// <param name="ex"></param>
         /// <returns></returns>
-        private string GetLogContent(LogLevel logLevel, string msg, Exception ex)
+        private static string GetLogContent(LogLevel logLevel, string msg, Exception ex)
         {
             return GetLogHead(logLevel) + msg + Environment.NewLine + (ex == null ? string.Empty : (ex.ToString() + Environment.NewLine)); //ex.ToString()内容最详细
         }
@@ -117,7 +116,7 @@ namespace LightLog
         /// </summary>
         /// <param name="logLevel"></param>
         /// <returns></returns>
-        private string GetLogHead(LogLevel logLevel)
+        private static string GetLogHead(LogLevel logLevel)
         {
             return $"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {logLevel.ToString()}] ";
         }
@@ -126,7 +125,7 @@ namespace LightLog
         /// 获取日志文件路径
         /// </summary>
         /// <returns></returns>
-        private string GetLogFilePath()
+        private static string GetLogFilePath()
         {
             return logFolderPath + DateTime.Now.ToString("yyyyMMdd") + ".log";
         }
@@ -137,7 +136,7 @@ namespace LightLog
         /// <param name="logLevel"></param>
         /// <param name="msg"></param>
         /// <param name="ex"></param>
-        private void WriteLog(LogLevel logLevel, string msg, Exception ex)
+        private static void WriteLog(LogLevel logLevel, string msg, Exception ex)
         {
             WriteLog(GetLogFilePath(), GetLogContent(logLevel, msg, ex)); //格式化日志、写日志
         }
@@ -147,7 +146,7 @@ namespace LightLog
         /// </summary>
         /// <param name="path"></param>
         /// <param name="msg"></param>
-        private void WriteLog(string path, string msg)
+        private static void WriteLog(string path, string msg)
         {
             lock (writeLock)
             {
