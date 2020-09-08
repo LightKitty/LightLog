@@ -10,14 +10,14 @@ namespace LightLog
     public class Logger
     {
         /// <summary>
+        /// 写日志锁（全局唯一）
+        /// </summary>
+        private static readonly object writeLock = new object();
+
+        /// <summary>
         /// 日志文件夹
         /// </summary>
         private string logFolderPath = "log\\";
-
-        /// <summary>
-        /// 写日志锁
-        /// </summary>
-        private object writeLock = new object();
 
         /// <summary>
         /// 日志类型
@@ -90,10 +90,20 @@ namespace LightLog
         {
             lock (writeLock)
             {
-                if (!File.Exists(path)) using (var sw = File.Create(path)) { };
-                using (StreamWriter sw = new StreamWriter(path, true, Encoding.UTF8))
-                {
-                    sw.Write(msg);
+                if (File.Exists(path))
+                { //存在日志文件
+                    using (StreamWriter sw = new StreamWriter(path, true, Encoding.UTF8))
+                    {
+                        sw.Write(msg); //写日志
+                    }
+                }
+                else
+                { //不存在日志文件
+                    using (var fw = File.Create(path)) //创建日志文件
+                    using (StreamWriter sw = new StreamWriter(fw, Encoding.UTF8))
+                    {
+                        sw.Write(msg); //写日志
+                    } 
                 }
             }
         }
