@@ -5,12 +5,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LightLog.Test
 {
     [TestClass]
-    public class LoggerTest
+    public class LogTest
     {
         [TestMethod]
         public void WriteTest()
         {
-            Logger.Info("info log");
+            Log.Info("info log");
             try
             {
                 string str = null;
@@ -18,7 +18,7 @@ namespace LightLog.Test
             }
             catch (Exception ex)
             {
-                Logger.Error("error log", ex);
+                Log.Error("error log", ex);
             }
 
             Thread.Sleep(1000);

@@ -10,7 +10,7 @@ namespace LightLog
     /// <summary>
     /// 日志记录
     /// </summary>
-    public static class Logger
+    public static class Log
     {
         #region private fileds
 
