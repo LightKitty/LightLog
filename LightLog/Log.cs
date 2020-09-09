@@ -8,24 +8,24 @@ using System.Threading.Tasks;
 namespace LightLog
 {
     /// <summary>
-    /// 日志记录
+    /// log. 日志
     /// </summary>
     public static class Log
     {
         #region private fileds
 
         /// <summary>
-        /// Write Lock. 写日志锁
+        /// Write lock. 写日志锁
         /// </summary>
         private static readonly object writeLock = new object();
 
         /// <summary>
-        /// Log Folder Path. 日志文件夹路径
+        /// Log folder path. 日志文件夹路径
         /// </summary>
         private static string folderPath = "log\\";
 
         /// <summary>
-        /// Log Level. 日志级别
+        /// Log level. 日志级别
         /// </summary>
         private enum LogLevel { Debug, Info, Warn, Error, Fatal };
 
@@ -34,7 +34,7 @@ namespace LightLog
         #region public methods
 
         /// <summary>
-        /// Set log Folder Path. 设置日志路径
+        /// Set log folder path. 设置日志路径
         /// </summary>
         /// <param name="path">Log Folder Path. 日志路径</param>
         public static void SetFolderPath(string path)
@@ -44,7 +44,7 @@ namespace LightLog
         }
 
         /// <summary>
-        /// Write debug Log. 写调试日志
+        /// Write debug log. 写调试日志
         /// </summary>
         /// <param name="msg">Log message. 日志信息</param>
         /// <param name="ex">Exception. 异常</param>
@@ -57,7 +57,7 @@ namespace LightLog
         }
 
         /// <summary>
-        /// Write info Log. 写信息日志
+        /// Write info log. 写信息日志
         /// </summary>
         /// <param name="msg">Log message. 日志信息</param>
         /// <param name="ex">Exception. 异常</param>
@@ -70,7 +70,7 @@ namespace LightLog
         }
 
         /// <summary>
-        /// Write Warn Log. 写警告日志
+        /// Write warn log. 写警告日志
         /// </summary>
         /// <param name="msg">Log message. 日志信息</param>
         /// <param name="ex">Exception. 异常</param>
@@ -83,7 +83,7 @@ namespace LightLog
         }
 
         /// <summary>
-        /// Write Error Log. 写错误日志
+        /// Write error log. 写错误日志
         /// </summary>
         /// <param name="msg">Log message. 日志信息</param>
         /// <param name="ex">Exception. 异常</param>
@@ -96,7 +96,7 @@ namespace LightLog
         }
 
         /// <summary>
-        /// Write Faltal Log. 写致命日志
+        /// Write faltal log. 写致命日志
         /// </summary>
         /// <param name="msg">Log message. 日志信息</param>
         /// <param name="ex">Exception. 异常</param>
@@ -135,12 +135,12 @@ namespace LightLog
         }
 
         /// <summary>
-        /// Get log path. 获取日志文件路径
+        /// Get log file name. 获取日志文件名称
         /// </summary>
         /// <returns></returns>
-        private static string GetPath()
+        private static string GetName()
         {
-            return folderPath + DateTime.Now.ToString("yyyyMMdd") + ".log";
+            return DateTime.Now.ToString("yyyyMMdd") + ".log";
         }
 
         /// <summary>
@@ -151,16 +151,17 @@ namespace LightLog
         /// <param name="ex"></param>
         private static void Write(LogLevel logLevel, string msg, Exception ex)
         {
-            Write(GetPath(), GetContent(logLevel, msg, ex)); //格式化日志、写日志
+            Write(GetName(), GetContent(logLevel, msg, ex)); //格式化日志、写日志
         }
 
         /// <summary>
         /// Write log. 写日志
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="name"></param>
         /// <param name="msg"></param>
-        private static void Write(string path, string msg)
+        private static void Write(string name, string msg)
         {
+            string path = folderPath + name; //日志路径
             lock (writeLock)
             { //保证单线程写磁盘文件
                 if (File.Exists(path))
@@ -172,6 +173,7 @@ namespace LightLog
                 }
                 else
                 { //不存在日志文件
+                    if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath); //判断并创建日志文件夹
                     using (var fw = File.Create(path)) //创建日志文件
                     using (StreamWriter sw = new StreamWriter(fw, Encoding.UTF8))
                     {
