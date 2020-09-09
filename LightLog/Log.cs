@@ -165,7 +165,7 @@ namespace LightLog
             { //保证单线程写磁盘文件
                 if (File.Exists(path))
                 { //存在日志文件
-                    using (StreamWriter sw = new StreamWriter(path, true, Encoding.UTF8))
+                    using (StreamWriter sw = new StreamWriter(path, true, Encoding.UTF8)) //追加
                     {
                         sw.Write(msg); //写日志
                     }
