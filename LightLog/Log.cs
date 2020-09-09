@@ -15,17 +15,17 @@ namespace LightLog
         #region private fileds
 
         /// <summary>
-        /// 写日志锁
+        /// Write Lock. 写日志锁
         /// </summary>
         private static readonly object writeLock = new object();
 
         /// <summary>
-        /// 日志文件夹路径
+        /// Log Folder Path. 日志文件夹路径
         /// </summary>
         private static string folderPath = "log\\";
 
         /// <summary>
-        /// 日志级别
+        /// Log Level. 日志级别
         /// </summary>
         private enum LogLevel { Debug, Info, Warn, Error, Fatal };
 
@@ -34,9 +34,9 @@ namespace LightLog
         #region public methods
 
         /// <summary>
-        /// 设置日志路径
+        /// Set log Folder Path. 设置日志路径
         /// </summary>
-        /// <param name="path">日志路径</param>
+        /// <param name="path">Log Folder Path. 日志路径</param>
         public static void SetFolderPath(string path)
         {
             folderPath = (path.EndsWith("\\") || path.EndsWith("/")) ? path : path + "\\";
@@ -44,10 +44,10 @@ namespace LightLog
         }
 
         /// <summary>
-        /// 写调试日志
+        /// Write debug Log. 写调试日志
         /// </summary>
-        /// <param name="msg">日志信息</param>
-        /// <param name="ex">异常</param>
+        /// <param name="msg">Log message. 日志信息</param>
+        /// <param name="ex">Exception. 异常</param>
         public static void Debug(string msg, Exception ex = null)
         {
             Task.Run(() =>
@@ -57,10 +57,10 @@ namespace LightLog
         }
 
         /// <summary>
-        /// 写信息日志
+        /// Write info Log. 写信息日志
         /// </summary>
-        /// <param name="msg">日志信息</param>
-        /// <param name="ex">异常</param>
+        /// <param name="msg">Log message. 日志信息</param>
+        /// <param name="ex">Exception. 异常</param>
         public static void Info(string msg, Exception ex = null)
         {
             Task.Run(() =>
@@ -70,10 +70,10 @@ namespace LightLog
         }
 
         /// <summary>
-        /// 写警告日志
+        /// Write Warn Log. 写警告日志
         /// </summary>
-        /// <param name="msg">日志信息</param>
-        /// <param name="ex">异常</param>
+        /// <param name="msg">Log message. 日志信息</param>
+        /// <param name="ex">Exception. 异常</param>
         public static void Warn(string msg, Exception ex = null)
         {
             Task.Run(() =>
@@ -83,10 +83,10 @@ namespace LightLog
         }
 
         /// <summary>
-        /// 写错误日志
+        /// Write Error Log. 写错误日志
         /// </summary>
-        /// <param name="msg">日志信息</param>
-        /// <param name="ex">异常</param>
+        /// <param name="msg">Log message. 日志信息</param>
+        /// <param name="ex">Exception. 异常</param>
         public static void Error(string msg, Exception ex = null)
         {
             Task.Run(() =>
@@ -96,10 +96,10 @@ namespace LightLog
         }
 
         /// <summary>
-        /// 写致命日志
+        /// Write Faltal Log. 写致命日志
         /// </summary>
-        /// <param name="msg">日志信息</param>
-        /// <param name="ex">异常</param>
+        /// <param name="msg">Log message. 日志信息</param>
+        /// <param name="ex">Exception. 异常</param>
         public static void Fatal(string msg, Exception ex = null)
         {
             Task.Run(() =>
@@ -113,7 +113,7 @@ namespace LightLog
         #region private methods
 
         /// <summary>
-        /// 格式化日志内容
+        /// Format log content. 格式化日志内容
         /// </summary>
         /// <param name="logLevel"></param>
         /// <param name="msg"></param>
@@ -125,7 +125,7 @@ namespace LightLog
         }
 
         /// <summary>
-        /// 日志头部信息
+        /// Log head text. 日志头部文本
         /// </summary>
         /// <param name="logLevel"></param>
         /// <returns></returns>
@@ -135,7 +135,7 @@ namespace LightLog
         }
 
         /// <summary>
-        /// 获取日志文件路径
+        /// Get log path. 获取日志文件路径
         /// </summary>
         /// <returns></returns>
         private static string GetPath()
@@ -144,7 +144,7 @@ namespace LightLog
         }
 
         /// <summary>
-        /// 写日志
+        /// Write log. 写日志
         /// </summary>
         /// <param name="logLevel"></param>
         /// <param name="msg"></param>
@@ -155,7 +155,7 @@ namespace LightLog
         }
 
         /// <summary>
-        /// 写日志
+        /// Write log. 写日志
         /// </summary>
         /// <param name="path"></param>
         /// <param name="msg"></param>
