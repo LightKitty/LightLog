@@ -162,7 +162,7 @@ namespace LightLog
         private static void WriteLog(string path, string msg)
         {
             lock (writeLock)
-            {
+            { //保证单线程写磁盘文件
                 if (File.Exists(path))
                 { //存在日志文件
                     using (StreamWriter sw = new StreamWriter(path, true, Encoding.UTF8))
