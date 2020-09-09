@@ -20,9 +20,9 @@ namespace LightLog
         private static readonly object writeLock = new object();
 
         /// <summary>
-        /// 日志文件夹
+        /// 日志文件夹路径
         /// </summary>
-        private static string logFolderPath = "log\\";
+        private static string folderPath = "log\\";
 
         /// <summary>
         /// 日志级别
@@ -37,10 +37,10 @@ namespace LightLog
         /// 设置日志路径
         /// </summary>
         /// <param name="path">日志路径</param>
-        public static void SetLogPath(string path)
+        public static void SetFolderPath(string path)
         {
-            logFolderPath = (path.EndsWith("\\") || path.EndsWith("/")) ? path : path + "\\";
-            if (!Directory.Exists(logFolderPath)) Directory.CreateDirectory(logFolderPath); //判断并创建日志文件夹
+            folderPath = (path.EndsWith("\\") || path.EndsWith("/")) ? path : path + "\\";
+            if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath); //判断并创建日志文件夹
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace LightLog
         {
             Task.Run(() =>
             {
-                WriteLog(LogLevel.Debug, msg, ex);
+                Write(LogLevel.Debug, msg, ex);
             });
         }
 
@@ -65,7 +65,7 @@ namespace LightLog
         {
             Task.Run(() =>
             {
-                WriteLog(LogLevel.Info, msg, ex);
+                Write(LogLevel.Info, msg, ex);
             });
         }
 
@@ -78,7 +78,7 @@ namespace LightLog
         {
             Task.Run(() =>
             {
-                WriteLog(LogLevel.Warn, msg, ex);
+                Write(LogLevel.Warn, msg, ex);
             });
         }
 
@@ -91,7 +91,7 @@ namespace LightLog
         {
             Task.Run(() =>
             {
-                WriteLog(LogLevel.Error, msg, ex);
+                Write(LogLevel.Error, msg, ex);
             });
         }
 
@@ -104,7 +104,7 @@ namespace LightLog
         {
             Task.Run(() =>
             {
-                WriteLog(LogLevel.Fatal, msg, ex);
+                Write(LogLevel.Fatal, msg, ex);
             });
         }
 
@@ -119,9 +119,9 @@ namespace LightLog
         /// <param name="msg"></param>
         /// <param name="ex"></param>
         /// <returns></returns>
-        private static string GetLogContent(LogLevel logLevel, string msg, Exception ex)
+        private static string GetContent(LogLevel logLevel, string msg, Exception ex)
         {
-            return GetLogHead(logLevel) + msg + Environment.NewLine + (ex == null ? string.Empty : (ex.ToString() + Environment.NewLine)); //ex.ToString()内容最详细
+            return GetHead(logLevel) + msg + Environment.NewLine + (ex == null ? string.Empty : (ex.ToString() + Environment.NewLine)); //ex.ToString()内容最详细
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace LightLog
         /// </summary>
         /// <param name="logLevel"></param>
         /// <returns></returns>
-        private static string GetLogHead(LogLevel logLevel)
+        private static string GetHead(LogLevel logLevel)
         {
             return $"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {logLevel.ToString()}] ";
         }
@@ -138,9 +138,9 @@ namespace LightLog
         /// 获取日志文件路径
         /// </summary>
         /// <returns></returns>
-        private static string GetLogFilePath()
+        private static string GetPath()
         {
-            return logFolderPath + DateTime.Now.ToString("yyyyMMdd") + ".log";
+            return folderPath + DateTime.Now.ToString("yyyyMMdd") + ".log";
         }
 
         /// <summary>
@@ -149,9 +149,9 @@ namespace LightLog
         /// <param name="logLevel"></param>
         /// <param name="msg"></param>
         /// <param name="ex"></param>
-        private static void WriteLog(LogLevel logLevel, string msg, Exception ex)
+        private static void Write(LogLevel logLevel, string msg, Exception ex)
         {
-            WriteLog(GetLogFilePath(), GetLogContent(logLevel, msg, ex)); //格式化日志、写日志
+            Write(GetPath(), GetContent(logLevel, msg, ex)); //格式化日志、写日志
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace LightLog
         /// </summary>
         /// <param name="path"></param>
         /// <param name="msg"></param>
-        private static void WriteLog(string path, string msg)
+        private static void Write(string path, string msg)
         {
             lock (writeLock)
             { //保证单线程写磁盘文件

@@ -10,6 +10,7 @@ namespace LightLog.Test
         [TestMethod]
         public void WriteTest()
         {
+            Log.Debug("debug log");
             Log.Info("info log");
             try
             {
