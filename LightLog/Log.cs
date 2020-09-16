@@ -50,7 +50,7 @@ namespace LightLog
         {
             Task.Run(() =>
             {
-                Write(LogLevel.Debug, msg, ex);
+                Write(LogLevel.Debug, msg, ex?.ToString());
             });
         }
 
@@ -63,7 +63,7 @@ namespace LightLog
         {
             Task.Run(() =>
             {
-                Write(LogLevel.Info, msg, ex);
+                Write(LogLevel.Info, msg, ex?.ToString());
             });
         }
 
@@ -76,7 +76,7 @@ namespace LightLog
         {
             Task.Run(() =>
             {
-                Write(LogLevel.Warn, msg, ex);
+                Write(LogLevel.Warn, msg, ex?.ToString());
             });
         }
 
@@ -89,7 +89,7 @@ namespace LightLog
         {
             Task.Run(() =>
             {
-                Write(LogLevel.Error, msg, ex);
+                Write(LogLevel.Error, msg, ex?.ToString());
             });
         }
 
@@ -102,7 +102,7 @@ namespace LightLog
         {
             Task.Run(() =>
             {
-                Write(LogLevel.Fatal, msg, ex);
+                Write(LogLevel.Fatal, msg, ex?.ToString());
             });
         }
 
@@ -111,45 +111,14 @@ namespace LightLog
         #region private methods
 
         /// <summary>
-        /// Format log content. 格式化日志内容
-        /// </summary>
-        /// <param name="logLevel"></param>
-        /// <param name="msg"></param>
-        /// <param name="ex"></param>
-        /// <returns></returns>
-        private static string GetContent(LogLevel logLevel, string msg, Exception ex)
-        {
-            return GetHead(logLevel) + msg + Environment.NewLine + (ex == null ? string.Empty : (ex.ToString() + Environment.NewLine)); //ex.ToString()内容最详细
-        }
-
-        /// <summary>
-        /// Log head text. 日志头部文本
-        /// </summary>
-        /// <param name="logLevel"></param>
-        /// <returns></returns>
-        private static string GetHead(LogLevel logLevel)
-        {
-            return $"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {logLevel.ToString()}] ";
-        }
-
-        /// <summary>
-        /// Get log file name. 获取日志文件名称
-        /// </summary>
-        /// <returns></returns>
-        private static string GetName()
-        {
-            return DateTime.Now.ToString("yyyyMMdd") + ".log";
-        }
-
-        /// <summary>
         /// Write log. 写日志
         /// </summary>
         /// <param name="logLevel"></param>
         /// <param name="msg"></param>
-        /// <param name="ex"></param>
-        private static void Write(LogLevel logLevel, string msg, Exception ex)
+        /// <param name="exMsg"></param>
+        private static void Write(LogLevel logLevel, string msg, string exMsg)
         {
-            Write(GetName(), GetContent(logLevel, msg, ex)); //格式化日志、写日志
+            Write(GetName(), GetContent(logLevel, msg, exMsg)); //格式化日志、写日志
         }
 
         /// <summary>
@@ -179,6 +148,44 @@ namespace LightLog
                     } 
                 }
             }
+        }
+
+        /// <summary>
+        /// Get log file name. 获取日志文件名称
+        /// </summary>
+        /// <returns></returns>
+        private static string GetName()
+        {
+            return DateTime.Now.ToString("yyyyMMdd") + ".log";
+        }
+
+        /// <summary>
+        /// Format log content. 格式化日志内容
+        /// </summary>
+        /// <param name="logLevel"></param>
+        /// <param name="msg"></param>
+        /// <param name="exMsg"></param>
+        /// <returns></returns>
+        private static string GetContent(LogLevel logLevel, string msg, string exMsg)
+        {
+            if (string.IsNullOrEmpty(exMsg))
+            {
+                return GetHead(logLevel) + msg + Environment.NewLine;
+            }
+            else
+            {
+                return GetHead(logLevel) + msg + Environment.NewLine + exMsg + Environment.NewLine;
+            }
+        }
+
+        /// <summary>
+        /// Log head text. 日志头部文本
+        /// </summary>
+        /// <param name="logLevel"></param>
+        /// <returns></returns>
+        private static string GetHead(LogLevel logLevel)
+        {
+            return $"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {logLevel.ToString()}] ";
         }
 
         #endregion

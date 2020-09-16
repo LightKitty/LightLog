@@ -12,6 +12,7 @@ namespace LightLog.Test
         {
             Log.Debug("debug log");
             Log.Info("info log");
+            Log.Warn("warn log");
             try
             {
                 string str = null;
@@ -21,6 +22,7 @@ namespace LightLog.Test
             {
                 Log.Error("error log", ex);
             }
+            Log.Fatal("fatal log");
 
             Thread.Sleep(1000);
         }
