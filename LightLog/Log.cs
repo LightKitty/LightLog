@@ -141,8 +141,8 @@ namespace LightLog
                 else
                 { //不存在日志文件
                     if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath); //判断并创建日志文件夹
-                    using (var fw = File.Create(path)) //创建日志文件
-                    using (StreamWriter sw = new StreamWriter(fw, Encoding.UTF8))
+                    using (var fs = File.Create(path)) //创建日志文件
+                    using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
                     {
                         sw.Write(msg); //写日志
                     } 
