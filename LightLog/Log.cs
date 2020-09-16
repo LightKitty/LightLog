@@ -34,7 +34,7 @@ namespace LightLog
         /// <summary>
         /// Set log folder path. 设置日志文件夹路径
         /// </summary>
-        /// <param name="path">Log Folder Path. 日志路径</param>
+        /// <param name="path">Log Folder Path. 日志文件夹路径</param>
         public static void SetFolderPath(string path)
         {
             folderPath = (path.EndsWith("\\") || path.EndsWith("/")) ? path : path + "\\";
