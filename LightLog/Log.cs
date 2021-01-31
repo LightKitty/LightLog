@@ -22,10 +22,14 @@ namespace LightLog
         /// </summary>
         private static string folderPath = "log\\";
 
+        #endregion
+
+        #region fileds
+
         /// <summary>
-        /// Log level. 日志级别
+        /// The lowest write log level (Default is Debug). 最低写日志级别（默认为Debug）
         /// </summary>
-        private enum LogLevel { Debug, Info, Warn, Error, Fatal };
+        public static LogLevel WriteLogLevel { get; set; } = LogLevel.Debug;
 
         #endregion
 
@@ -48,12 +52,11 @@ namespace LightLog
         /// <param name="ex">Exception. 异常</param>
         public static void Debug(string msg, Exception ex = null)
         {
-#if DEBUG
+            if (WriteLogLevel > LogLevel.Debug) return;
             Task.Run(() =>
             {
                 Write(LogLevel.Debug, msg, ex?.ToString());
             });
-#endif
         }
 
         /// <summary>
@@ -63,6 +66,7 @@ namespace LightLog
         /// <param name="ex">Exception. 异常</param>
         public static void Info(string msg, Exception ex = null)
         {
+            if (WriteLogLevel > LogLevel.Info) return;
             Task.Run(() =>
             {
                 Write(LogLevel.Info, msg, ex?.ToString());
@@ -76,6 +80,7 @@ namespace LightLog
         /// <param name="ex">Exception. 异常</param>
         public static void Warn(string msg, Exception ex = null)
         {
+            if (WriteLogLevel > LogLevel.Warn) return;
             Task.Run(() =>
             {
                 Write(LogLevel.Warn, msg, ex?.ToString());
@@ -89,6 +94,7 @@ namespace LightLog
         /// <param name="ex">Exception. 异常</param>
         public static void Error(string msg, Exception ex = null)
         {
+            if (WriteLogLevel > LogLevel.Error) return;
             Task.Run(() =>
             {
                 Write(LogLevel.Error, msg, ex?.ToString());
@@ -102,15 +108,16 @@ namespace LightLog
         /// <param name="ex">Exception. 异常</param>
         public static void Fatal(string msg, Exception ex = null)
         {
+            if (WriteLogLevel > LogLevel.Fatal) return;
             Task.Run(() =>
             {
                 Write(LogLevel.Fatal, msg, ex?.ToString());
             });
         }
 
-#endregion
+        #endregion
 
-#region private methods
+        #region private methods
 
         /// <summary>
         /// Write log. 写日志
@@ -190,6 +197,11 @@ namespace LightLog
             return $"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {logLevel.ToString()}] ";
         }
 
-#endregion
+        #endregion
     }
+
+    /// <summary>
+    /// Log level. 日志级别
+    /// </summary>
+    public enum LogLevel { Debug, Info, Warn, Error, Fatal };
 }
