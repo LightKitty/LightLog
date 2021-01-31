@@ -102,7 +102,7 @@ namespace LightLog
         }
 
         /// <summary>
-        /// Write faltal log. 写致命日志
+        /// Write faltal log. 写毁灭日志
         /// </summary>
         /// <param name="msg">Log message. 日志信息</param>
         /// <param name="ex">Exception. 异常</param>
@@ -203,5 +203,31 @@ namespace LightLog
     /// <summary>
     /// Log level. 日志级别
     /// </summary>
-    public enum LogLevel { Debug, Info, Warn, Error, Fatal };
+    public enum LogLevel
+    {
+        /// <summary>
+        /// Debug level.调试级别
+        /// </summary>
+        Debug,
+
+        /// <summary>
+        /// Info level. 信息级别
+        /// </summary>
+        Info,
+
+        /// <summary>
+        /// Warn level. 警告级别
+        /// </summary>
+        Warn,
+
+        /// <summary>
+        /// Error level, 错误级别
+        /// </summary>
+        Error,
+
+        /// <summary>
+        /// Fatal level. 毁灭级别
+        /// </summary>
+        Fatal
+    };
 }
