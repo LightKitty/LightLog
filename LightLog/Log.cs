@@ -48,10 +48,12 @@ namespace LightLog
         /// <param name="ex">Exception. 异常</param>
         public static void Debug(string msg, Exception ex = null)
         {
+#if DEBUG
             Task.Run(() =>
             {
                 Write(LogLevel.Debug, msg, ex?.ToString());
             });
+#endif
         }
 
         /// <summary>
@@ -106,9 +108,9 @@ namespace LightLog
             });
         }
 
-        #endregion
+#endregion
 
-        #region private methods
+#region private methods
 
         /// <summary>
         /// Write log. 写日志
@@ -188,6 +190,6 @@ namespace LightLog
             return $"[{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} {logLevel.ToString()}] ";
         }
 
-        #endregion
+#endregion
     }
 }
