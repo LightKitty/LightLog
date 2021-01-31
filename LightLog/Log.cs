@@ -42,7 +42,7 @@ namespace LightLog
         }
 
         /// <summary>
-        /// Write debug log. 写调试日志
+        /// Write debug log (Not write in release). 写调试日志（Release版本不会写）
         /// </summary>
         /// <param name="msg">Log message. 日志信息</param>
         /// <param name="ex">Exception. 异常</param>
