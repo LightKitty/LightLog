@@ -206,7 +206,7 @@ namespace LightLog
     public enum LogLevel
     {
         /// <summary>
-        /// Debug level.调试级别
+        /// Debug level. 调试级别
         /// </summary>
         Debug,
 
