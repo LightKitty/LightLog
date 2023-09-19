@@ -127,7 +127,7 @@ namespace LightLog
         /// <param name="exMsg"></param>
         private static void Write(LogLevel logLevel, string msg, string exMsg)
         {
-            Write(GetName(), GetContent(logLevel, msg, exMsg) + Environment.NewLine); //格式化日志、写日志
+            Write(GetName(), GetContent(logLevel, msg, exMsg)); //格式化日志、写日志
         }
 
         /// <summary>
