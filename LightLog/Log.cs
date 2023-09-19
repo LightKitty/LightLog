@@ -22,10 +22,14 @@ namespace LightLog
         /// </summary>
         private static string folderPath = "log\\";
 
+        #endregion
+
+        #region fileds
+
         /// <summary>
-        /// Log level. 日志级别
+        /// The lowest write log level (Default is Debug). 最低写日志级别（默认为Debug）
         /// </summary>
-        private enum LogLevel { Debug, Info, Warn, Error, Fatal };
+        public static LogLevel WriteLogLevel { get; set; } = LogLevel.Debug;
 
         #endregion
 
@@ -42,12 +46,13 @@ namespace LightLog
         }
 
         /// <summary>
-        /// Write debug log. 写调试日志
+        /// Write debug log (Not write in release). 写调试日志（Release版本不会写）
         /// </summary>
         /// <param name="msg">Log message. 日志信息</param>
         /// <param name="ex">Exception. 异常</param>
         public static void Debug(string msg, Exception ex = null)
         {
+            if (WriteLogLevel > LogLevel.Debug) return;
             Task.Run(() =>
             {
                 Write(LogLevel.Debug, msg, ex?.ToString());
@@ -61,6 +66,7 @@ namespace LightLog
         /// <param name="ex">Exception. 异常</param>
         public static void Info(string msg, Exception ex = null)
         {
+            if (WriteLogLevel > LogLevel.Info) return;
             Task.Run(() =>
             {
                 Write(LogLevel.Info, msg, ex?.ToString());
@@ -74,6 +80,7 @@ namespace LightLog
         /// <param name="ex">Exception. 异常</param>
         public static void Warn(string msg, Exception ex = null)
         {
+            if (WriteLogLevel > LogLevel.Warn) return;
             Task.Run(() =>
             {
                 Write(LogLevel.Warn, msg, ex?.ToString());
@@ -87,6 +94,7 @@ namespace LightLog
         /// <param name="ex">Exception. 异常</param>
         public static void Error(string msg, Exception ex = null)
         {
+            if (WriteLogLevel > LogLevel.Error) return;
             Task.Run(() =>
             {
                 Write(LogLevel.Error, msg, ex?.ToString());
@@ -94,12 +102,13 @@ namespace LightLog
         }
 
         /// <summary>
-        /// Write faltal log. 写致命日志
+        /// Write faltal log. 写毁灭日志
         /// </summary>
         /// <param name="msg">Log message. 日志信息</param>
         /// <param name="ex">Exception. 异常</param>
         public static void Fatal(string msg, Exception ex = null)
         {
+            if (WriteLogLevel > LogLevel.Fatal) return;
             Task.Run(() =>
             {
                 Write(LogLevel.Fatal, msg, ex?.ToString());
@@ -141,8 +150,8 @@ namespace LightLog
                 else
                 { //不存在日志文件
                     if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath); //判断并创建日志文件夹
-                    using (var fw = File.Create(path)) //创建日志文件
-                    using (StreamWriter sw = new StreamWriter(fw, Encoding.UTF8))
+                    using (var fs = File.Create(path)) //创建日志文件
+                    using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
                     {
                         sw.Write(msg); //写日志
                     } 
@@ -190,4 +199,35 @@ namespace LightLog
 
         #endregion
     }
+
+    /// <summary>
+    /// Log level. 日志级别
+    /// </summary>
+    public enum LogLevel
+    {
+        /// <summary>
+        /// Debug level. 调试级别
+        /// </summary>
+        Debug,
+
+        /// <summary>
+        /// Info level. 信息级别
+        /// </summary>
+        Info,
+
+        /// <summary>
+        /// Warn level. 警告级别
+        /// </summary>
+        Warn,
+
+        /// <summary>
+        /// Error level, 错误级别
+        /// </summary>
+        Error,
+
+        /// <summary>
+        /// Fatal level. 毁灭级别
+        /// </summary>
+        Fatal
+    };
 }
